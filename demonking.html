@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Produk DemonKing Official</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Orbitron', sans-serif; }
+
+    body {
+      background: radial-gradient(circle at top, #0f0f1a, #000);
+      color: #fff;
+      text-align: center;
+      overflow-x: hidden;
+    }
+
+    h1, h2, p {
+      text-shadow: 0 0 8px #00f0ff, 0 0 16px #ff00ff;
+      margin-bottom: 12px;
+    }
+
+    #loader {
+      position: fixed; inset: 0;
+      background: #000;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; z-index: 10000;
+      color: #0ff;
+      text-shadow: 0 0 10px #0ff, 0 0 20px #f0f;
+    }
+
+    .welcome-message { margin-top: 18vh; }
+    .btn-pay {
+      background: transparent;
+      border: 2px solid #0ff;
+      color: #0ff;
+      padding: 12px 24px;
+      font-size: 1.1rem;
+      border-radius: 12px;
+      cursor: pointer;
+      text-shadow: 0 0 8px #0ff, 0 0 12px #f0f;
+      box-shadow: 0 0 15px #0ff, inset 0 0 10px #f0f;
+      transition: transform .18s ease, background .18s;
+    }
+    .btn-pay:hover { transform: scale(1.06); background: rgba(255,255,255,0.03); }
+
+    #main-content { display: none; padding: 24px; animation: fadeIn .8s ease-in; }
+    @keyframes fadeIn { from{opacity:0; transform:translateY(12px)} to{opacity:1; transform:none} }
+
+    video {
+      width: 90%; max-width: 720px;
+      border-radius: 14px;
+      margin: 18px auto;
+      display: block;
+      box-shadow: 0 0 25px #0ff, 0 0 40px #f0f;
+    }
+
+    .product-list {
+      margin: 16px auto;
+      padding: 18px;
+      border-radius: 12px;
+      max-width: 780px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      box-shadow: 0 0 20px rgba(0,255,255,0.06), inset 0 0 8px rgba(255,0,255,0.02);
+      text-align: left;
+    }
+
+    .product-list ul { list-style: none; padding-left: 10px; line-height: 1.7; font-weight: 600; }
+    .product-list li {
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.02);
+      display: flex; justify-content: space-between; align-items: center;
+      transition: transform .12s ease, background .12s;
+    }
+    .product-list li:hover { transform: translateX(6px); background: rgba(255,255,255,0.05); }
+
+    .buy-btn {
+      background: linear-gradient(90deg,#25d366,#00ffff);
+      color: #000; font-weight: 700;
+      padding: 6px 12px; border-radius: 8px;
+      text-decoration: none;
+      box-shadow: 0 0 15px rgba(0,255,128,0.4);
+      transition: transform .15s ease;
+    }
+    .buy-btn:hover { transform: scale(1.1); }
+
+    .product-footer {
+      margin-top: 12px;
+      text-align: center;
+      font-weight: 700;
+      text-shadow: 0 0 10px #ffef9a, 0 0 20px #f0f;
+    }
+
+    .payment-method {
+      margin: 16px auto;
+      padding: 18px;
+      border-radius: 12px;
+      max-width: 780px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      box-shadow: 0 0 20px rgba(0,255,255,0.06), inset 0 0 8px rgba(255,0,255,0.02);
+      text-align: left;
+    }
+
+    .payment-method .row {
+      display: flex; gap: 12px; flex-wrap: wrap;
+    }
+
+    .copy-btn, .show-qr-btn {
+      margin-top: 8px;
+      padding: 8px 14px;
+      border: none; border-radius: 10px;
+      background: linear-gradient(90deg,#ff00ff,#00ffff);
+      color: #000; font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 0 20px rgba(255,0,255,0.15);
+    }
+    .copy-btn:hover, .show-qr-btn:hover { transform: translateY(-3px); }
+
+    #qr-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.88);
+      align-items: center; justify-content: center;
+      z-index: 9999;
+      flex-direction: column; gap: 18px;
+      text-align: center;
+    }
+    #qr-overlay img {
+      max-width: 360px; border-radius: 12px;
+      box-shadow: 0 0 30px #0ff, 0 0 40px #f0f;
+    }
+    #qr-overlay .close-txt {
+      color: #fff; cursor: pointer;
+      padding: 8px 14px; border-radius: 10px;
+      background: rgba(255,255,255,0.02);
+    }
+  </style>
+</head>
+<body>
+<div id="loader">⚡ Loading Kakakkuu...</div>
+
+<div id="welcome-message" class="welcome-message" style="display:none;">
+  <h1>𝐖𝐄𝐋𝐂𝐎𝐌𝐄 𝐓𝐎 𝐏𝐑𝐎𝐃𝐔𝐊 𝐃𝐄𝐌𝐎𝐍 𝐊𝐈𝐍𝐆</h1>
+  <p>Click tombol di bawah</p>
+  <button id="go-to-payment" class="btn-pay">𝐃𝐄𝐌𝐎𝐍 𝐊𝐈𝐍𝐆</button>
+</div>
+
+<div id="main-content">
+  <h1>𝐏𝐑𝐎𝐃𝐔𝐊 𝐋𝐈𝐒𝐓</h1>
+  <p>Pilih metode pembayaran & produk</p>
+
+  <video src="https://files.catbox.moe/tl7csd.mp4" autoplay muted loop playsinline></video>
+
+  <div class="product-list">
+    <h2>📦 Produk</h2>
+    <ul>
+      <li>Open MC 24 JAM <a class="buy-btn" href="https://wa.me/62882016923427?text=Halo%20mau%20MC%20aku%20culik/tambahin%20ke%20gb">WhatsApp</a></li>
+      <li>JasaPost cari/jual <a class="buy-btn" href="https://wa.me/62882016923427?text=Halo%20mau%20JP/jasapost%20produk%aku">WhatsApp</a></li>
+      <li>Open Pet [ GAG ] <a class="buy-btn" href="https://wa.me/62882016923427?text=Halo%20mau%20beli%20PET%20GAG">WhatsApp</a></li>
+      <li>Open Shackles [ GAG ] <a class="buy-btn" href="https://wa.me/62882016923427?text=Halo%20mau%20beli%20Shackles%20GAG">WhatsApp</a></li>
+      <li>Open Gear [ GAG ] <a class="buy-btn" href="https://wa.me/62882016923427?text=Halo%20mau%20beli%20Gear%20sGAG%20GAG">WhatsApp</a></li>
+      <li>Open Tanaman [ PVZ ] <a class="buy-btn" href="https://wa.me/62882016923427?text=Halo%20mau%20beli%20tanaman%20PVZ%20dong">WhatsApp</a></li>
+      <li>Open Otak [ PVZ ] <a class="buy-btn" href="https://wa.me/62882016923427?text=Halo%20mau%20beli%20Otak%20PVZ">WhatsApp</a></li>
+      <li>Open Jasa BUG <a class="buy-btn" href="https://wa.me/62882016923427?text=Halo%20mau%20beli%20Jasa%20BUG%20dong">WhatsApp</a></li>
+      <li>Open SC BUG <a class="buy-btn" href="https://wa.me/62882016923427?text=Halo%20mau%20beli%20SC%20sBUG%20dong">WhatsApp</a></li>
+      <li>Open panel prodycal <a class="buy-btn" href="https://wa.me/62882016923427?text=Halo%20mau%20beli%20panel%20prodycal">WhatsApp</a></li>
+      <li>Open Jasa Rename SC<a class="buy-btn" href="https://wa.me/62882016923427?text=Halo%20mau%20beli%20Jasa%20Rename%20SC">WhatsApp</a></li>
+      <li>jasa Rename web <a class="buy-btn" href="https://wa.me/62882016923427?text=Halo%20mau%20jasa%20Rename%20web">WhatsApp</a></li>
+      <li>Open Team Push Saluran <a class="buy-btn" href="https://wa.me/62882016923427?text=Halo%20mau%20beli%20Team%20Push%20SALURAN">WhatsApp</a></li>
+      <li>Open Saluran<a class="buy-btn" href="https://wa.me/62882016923427?text=Halo%20mau%20beli%20SALURAN%20mu%20minn">WhatsApp</a></li>
+      <li>Open murbug <a class="buy-btn" href="https://wa.me/62882016923427?text=Halo%20mau%20open%20murbug">WhatsApp</a></li>
+    </ul>
+
+    <div class="product-footer">
+      ✨ 100% AMANAH ✨<br>
+      © 𝐃𝐄𝐌𝐎𝐍 𝐊𝐈𝐍𝐆
+    </div>
+  </div>
+
+  <div class="payment-method">
+    <h2>💳 Metode Pembayaran</h2>
+    <div class="row">
+      <div style="flex:1; min-width:200px;">
+        <strong>Dana</strong>
+        <p>081326853543</p>
+        <button class="copy-btn" onclick="copyText('081326853543')">Copy Dana</button>
+      </div>
+      <div style="flex:1; min-width:200px;">
+        <strong>GoPay</strong>
+        <p>081390797471</p>
+        <button class="copy-btn" onclick="copyText('081390797471')">Copy GoPay</button>
+      </div>
+    </div>
+    <div style="margin-top:8px;">
+      <strong>QRIS</strong>
+      <button class="show-qr-btn" onclick="showQR()">Tampilkan QRIS</button>
+    </div>
+  </div>
+</div>
+
+<div id="qr-overlay">
+  <img src="https://files.catbox.moe/5jf9z6.jpg" alt="QRIS">
+  <div class="close-txt" onclick="hideQR()">❌ Tutup</div>
+</div>
+
+<script>
+  window.addEventListener("load", () => {
+    const loader = document.getElementById("loader");
+    loader.style.opacity = 0;
+    setTimeout(() => { 
+      loader.style.display = "none"; 
+      document.getElementById("welcome-message").style.display = "block"; 
+    }, 400);
+  });
+
+  document.getElementById("go-to-payment").addEventListener("click", function () {
+    document.getElementById("welcome-message").style.display = "none";
+    document.getElementById("main-content").style.display = "block";
+  });
+
+  function copyText(text) {
+    navigator.clipboard.writeText(text).then(() => alert("Nomor disalin: " + text));
+  }
+
+  function showQR() { document.getElementById('qr-overlay').style.display = 'flex'; }
+  function hideQR() { document.getElementById('qr-overlay').style.display = 'none'; }
+</script>
+</body>
+</html>
